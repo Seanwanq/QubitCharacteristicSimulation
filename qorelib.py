@@ -1,6 +1,12 @@
 from scipy.linalg import expm
 import numpy as np
 from numpy import matrix
+import sympy as sym
+
+
+SigmaZ: matrix = matrix([[1, 0], [0, -1]])
+SigmaY: matrix = matrix([[0, -1j], [1j, 0]])
+SigmaX: matrix = matrix([[0, 1], [1, 0]])
 
 
 def ComputeState(initialState: matrix, t: float, H: matrix):
@@ -13,8 +19,11 @@ def ComputeStateProbability(state: matrix, chooser: int):
     if chooser == 0:
         probability: float = np.abs((state[0][0, 0]))**2
         return probability
-    else:
+    if chooser == 1:
         probability: float = np.abs((state[1][0, 0]))**2
+        return probability
+    else:
+        probability: float = np.abs((state[2][0, 0]))**2
         return probability
 
 
@@ -28,10 +37,17 @@ def ComputeRamseyFinalStateWithoutNoise(initialState: matrix, H_d1: matrix, H_0:
     return finalState
 
 
-def HamiltonianWithDrive2X2(omegaQ: float, omegaD: float, phiD: float, A: float):
+def HamiltonianWithDrive2X2X(omegaQ: float, omegaD: float, phiD: float, A: float):
     delta: float = omegaD - omegaQ
     H: matrix = np.matrix([[0.5 * delta, 0.5 * A * np.exp(1j * phiD)],
                            [0.5 * A * np.exp(-1j * phiD), -0.5 * delta]])
+    return H
+
+
+def HamiltonianWithDrive2X2Y(omegaQ: float, omegaD: float, phiD: float, A: float):
+    delta: float = omegaD - omegaQ
+    H: matrix = np.matrix([[0.5 * delta, -0.5 * A * np.exp(1j * phiD)],
+                           [-0.5 * A * np.exp(-1j * phiD), -0.5 * delta]])
     return H
 
 

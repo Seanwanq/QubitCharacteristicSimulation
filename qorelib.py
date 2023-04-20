@@ -17,14 +17,17 @@ def ComputeState(initialState: matrix, t: float, H: matrix):
 
 def ComputeStateProbability(state: matrix, chooser: int):
     if chooser == 0:
-        probability: float = np.abs((state[0][0, 0]))**2
+        probability: float = np.abs((state[0, 0]))**2
         return probability
     if chooser == 1:
-        probability: float = np.abs((state[1][0, 0]))**2
+        probability: float = np.abs((state[1, 0]))**2
+        return probability
+    if chooser == 2:
+        probability: float = np.abs((state[2, 0]))**2
         return probability
     else:
-        probability: float = np.abs((state[2][0, 0]))**2
-        return probability
+        print("ERROR: YOU INPUT A WRONG CHOOSER!")
+        return ValueError
 
 
 def ComputeRamseyFinalStateWithoutNoise(initialState: matrix, H_d1: matrix, H_0: matrix, H_d2: matrix, A: float, τ: float, drive1Circle: float, drive2Circle: float):
